@@ -1,10 +1,12 @@
 <template>
   <section class="chat">
     <div class="chat__window">
-      <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message" :class="'chat__message--'+messageInChat.sender">
+      <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message"
+        :class="'chat__message--' + messageInChat.sender">
         {{ messageInChat.content }}
       </li>
     </div>
+    <p>{{ status }}</p>
     <form @submit="submitMessage">
       <input name="message" id="message" v-model="message" />
       <button type="submit">Submit</button>
@@ -22,6 +24,7 @@ export default {
     return {
       message: '',
       messagesInChat: [],
+      status: '',
       failure: false,
     }
   },
@@ -44,7 +47,14 @@ export default {
       )
       this.message = '';
 
-      this.submitPokemonMessage()
+      setTimeout(() => {
+        this.status = `${this.pokemonName} is typing`
+      }, 700)
+
+      setTimeout(() => {
+        this.submitPokemonMessage()
+        this.status = ''
+      }, 3000)
     },
     submitPokemonMessage() {
       this.messagesInChat.push(
