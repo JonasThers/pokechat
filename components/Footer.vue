@@ -1,12 +1,19 @@
 <template>
   <footer>
-    <h2>This is the footer</h2>
-    <h3>Will add stuff here later</h3>
+    <h3>Try another pokemon</h3>
+    <button @click="getPokemon">Click</button>
   </footer>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  methods: {
+    ...mapActions({
+      getPokemon: 'getPokemon',
+    }),
+  },
 }
 </script>
