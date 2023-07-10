@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Chat',
   data() {
@@ -41,6 +43,16 @@ export default {
         }
       )
       this.message = '';
+    }
+  },
+  computed: {
+    ...mapGetters({
+      pokemon: 'pokemon',
+    }),
+  },
+  watch: {
+    pokemon() {
+      this.messagesInChat = []
     }
   }
 }
