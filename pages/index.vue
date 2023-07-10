@@ -1,13 +1,12 @@
 <template>
-  <fragment>
+  <div>
     <Header />
     <Chat />
     <Footer />
-  </fragment>
+  </div>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment'
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
