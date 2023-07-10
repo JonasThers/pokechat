@@ -1,7 +1,7 @@
 <template>
   <section class="chat">
     <div class="chat__window">
-      <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message">
+      <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message" :class="'chat__message--'+messageInChat.sender">
         {{ messageInChat.content }}
       </li>
     </div>
@@ -43,12 +43,30 @@ export default {
         }
       )
       this.message = '';
+
+      this.submitPokemonMessage()
+    },
+    submitPokemonMessage() {
+      this.messagesInChat.push(
+        {
+          content: this.generatePokemonMessage(),
+          sender: 'pokemon'
+        }
+      )
+    },
+    generatePokemonMessage() {
+      const randomNumber = Math.floor(Math.random() * 3) + 1
+
+      return `${this.pokemonName}! `.repeat(randomNumber);
     }
   },
   computed: {
     ...mapGetters({
       pokemon: 'pokemon',
     }),
+    pokemonName() {
+      return this.pokemon.name ? this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1) : '...'
+    }
   },
   watch: {
     pokemon() {
