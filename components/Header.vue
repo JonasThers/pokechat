@@ -10,3 +10,9 @@ export default {
   name: 'Header',
 }
 </script>
+
+<style scoped >
+header {
+  text-align: center;
+}
+</style>

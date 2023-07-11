@@ -38,7 +38,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
 }
 
 @media (min-width: 768px) {
