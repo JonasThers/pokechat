@@ -1,19 +1,20 @@
 <template>
   <section class="chat">
-    <div class="chat__banner">PokeChat</div>
+    <div class="chat__banner" :class="pokemonType">PokeChat</div>
     <div class="chat__window">
       <div class="chat__window-header">
         <img class="chat__window-avatar" :src="pokemonAvatar" />
         <div class="chat__window-name">Hi! You'll be chatting with {{ pokemonName }}!</div>
       </div>
       <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message"
-        :class="'chat__message--' + messageInChat.sender">
+        :class="['chat__message--' + messageInChat.sender, pokemonType]">
         {{ messageInChat.content }}
       </li>
       <p class="chat__status">{{ status }}</p>
     </div>
     <form class="chat__actions" @submit="submitMessage">
-      <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..." v-model="message" />
+      <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..."
+        v-model="message" />
       <button class="chat__actions-button" type="submit">Submit</button>
       <p v-if="failure">Please type in a valid message</p>
     </form>
@@ -84,6 +85,9 @@ export default {
     },
     pokemonAvatar() {
       return this.pokemon.sprites ? this.pokemon.sprites.versions['generation-i']['red-blue'].front_default : null
+    },
+    pokemonType() {
+      return this.pokemon.types ? this.pokemon.types[0].type.name : null
     }
   },
   watch: {
@@ -95,17 +99,102 @@ export default {
 </script>
 
 <style scoped>
+.normal {
+  background: var(--normal);
+  color: var(--white);
+}
+
+.fire {
+  background: var(--fire);
+  color: var(--white);
+}
+
+.water {
+  background: var(--water);
+  color: var(--white);
+}
+
+.electric {
+  background: var(--electric);
+  color: var(--white);
+}
+
+.grass {
+  background: var(--grass);
+  color: var(--white);
+}
+
+.ice {
+  background: var(--ice);
+}
+
+.fighting {
+  background: var(--fighting);
+  color: var(--white);
+}
+
+.poison {
+  background: var(--poison);
+  color: var(--white);
+}
+
+.ground {
+  background: var(--ground);
+}
+
+.flying {
+  background: var(--flying);
+}
+
+.psychic {
+  background: var(--psychic);
+  color: var(--white);
+}
+
+.bug {
+  background: var(--bug);
+  color: var(--white);
+}
+
+.rock {
+  background: var(--rock);
+  color: var(--white);
+}
+
+.ghost {
+  background: var(--ghost);
+  color: var(--white);
+}
+
+.dragon {
+  background: var(--dragon);
+  color: var(--white);
+}
+
+.dark {
+  background: var(--dark);
+}
+
+.steel {
+  background: var(--steel);
+}
+
+.fairy {
+  background: var(--fairy);
+  color: var(--white);
+}
+
+
 .chat__window {
   height: 350px;
   width: 320px;
-  border: 1px solid black;
+  border: 1px solid var(--black);
   overflow-y: auto;
   padding: 7.5px;
 }
 
 .chat__banner {
-  background: hotpink;
-  padding: 7.5px;
+  padding: 10px 10px;
 }
 
 .chat__window-header {
@@ -122,7 +211,6 @@ export default {
   list-style-type: none;
   border-radius: 25px;
   padding: 5px 15px;
-  background: hotpink;
   margin-bottom: 5px;
 }
 
