@@ -1,6 +1,10 @@
 <template>
   <section class="chat">
     <div class="chat__window">
+      <div class="chat__window-header">
+        <img class="chat__window-avatar" :src="pokemonAvatar" />
+        <div class="chat__window-name">Hi! You'll be chatting with {{ pokemonName }}!</div>
+      </div>
       <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message"
         :class="'chat__message--' + messageInChat.sender">
         {{ messageInChat.content }}
@@ -76,6 +80,9 @@ export default {
     }),
     pokemonName() {
       return this.pokemon.name ? this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1) : '...'
+    },
+    pokemonAvatar() {
+      return this.pokemon.sprites ? this.pokemon.sprites.versions['generation-i']['red-blue'].front_default : null
     }
   },
   watch: {
@@ -88,10 +95,18 @@ export default {
 
 <style scoped>
 .chat__window {
-  height: 500px;
+  height: 350px;
   width: 320px;
   border: 1px solid black;
   overflow-y: auto;
+}
+
+.chat__window-header {
+  padding-top: 20px;
+}
+
+.chat__window-avatar {
+  height: 70px;
 }
 
 .chat__message {
