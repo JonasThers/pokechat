@@ -1,5 +1,6 @@
 <template>
   <section class="chat">
+    <div class="chat__banner">PokeChat</div>
     <div class="chat__window">
       <div class="chat__window-header">
         <img class="chat__window-avatar" :src="pokemonAvatar" />
@@ -9,11 +10,11 @@
         :class="'chat__message--' + messageInChat.sender">
         {{ messageInChat.content }}
       </li>
+      <p class="chat__status">{{ status }}</p>
     </div>
-    <p>{{ status }}</p>
-    <form @submit="submitMessage">
-      <input name="message" id="message" v-model="message" />
-      <button type="submit">Submit</button>
+    <form class="chat__actions" @submit="submitMessage">
+      <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..." v-model="message" />
+      <button class="chat__actions-button" type="submit">Submit</button>
       <p v-if="failure">Please type in a valid message</p>
     </form>
   </section>
@@ -53,7 +54,7 @@ export default {
 
       setTimeout(() => {
         this.status = `${this.pokemonName} is typing`
-      }, 700)
+      }, 500)
 
       setTimeout(() => {
         this.submitPokemonMessage()
@@ -99,17 +100,47 @@ export default {
   width: 320px;
   border: 1px solid black;
   overflow-y: auto;
+  padding: 7.5px;
+}
+
+.chat__banner {
+  background: hotpink;
+  padding: 7.5px;
 }
 
 .chat__window-header {
-  padding-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .chat__window-avatar {
   height: 70px;
+  margin-bottom: 5px;
 }
 
 .chat__message {
   list-style-type: none;
+  border-radius: 25px;
+  padding: 5px 15px;
+  background: hotpink;
+  margin-bottom: 5px;
+}
+
+.chat__status {
+  text-align: left;
+}
+
+.chat__actions {
+  display: flex;
+  height: 32px;
+}
+
+.chat__actions-input {
+  width: 70%;
+  padding: 5px;
+}
+
+.chat__actions-button {
+  width: 30%;
 }
 </style>
