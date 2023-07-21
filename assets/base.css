@@ -1,0 +1,12 @@
+@import './font.css';
+
+body {
+  margin: 0;
+  font-family: pokemonFont;
+  text-transform: uppercase;
+}
+
+button {
+  font-family: pokemonFont;
+  text-transform: uppercase;
+}
