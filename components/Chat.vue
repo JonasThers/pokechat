@@ -6,16 +6,18 @@
         <img class="chat__window-avatar" :src="pokemonAvatar" />
         <div class="chat__window-name">Hi! You'll be chatting with {{ pokemonName }}!</div>
       </div>
+      <div class="chat__messages">
       <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message"
         :class="['chat__message--' + messageInChat.sender, pokemonType]">
         {{ messageInChat.content }}
       </li>
+    </div>
       <p v-if="isLoadingDots" class="chat__status">{{ status }}{{ loadingDot }}</p>
     </div>
     <form class="chat__actions" @submit="submitMessage">
       <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..."
         v-model="message" />
-      <button class="chat__actions-button" type="submit">Submit</button>
+      <button class="chat__actions-button" :class="pokemonType" type="submit">Submit</button>
       <p v-if="failure">Please type in a valid message</p>
     </form>
   </section>
@@ -128,86 +130,104 @@ export default {
 .normal {
   background: var(--normal);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .fire {
   background: var(--fire);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .water {
   background: var(--water);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .electric {
   background: var(--electric);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .grass {
   background: var(--grass);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .ice {
   background: var(--ice);
+  text-shadow: 0px 2px var(--white);
 }
 
 .fighting {
   background: var(--fighting);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .poison {
   background: var(--poison);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .ground {
   background: var(--ground);
+  text-shadow: 0px 2px var(--white);
 }
 
 .flying {
   background: var(--flying);
+  text-shadow: 0px 2px var(--white);
 }
 
 .psychic {
   background: var(--psychic);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .bug {
   background: var(--bug);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .rock {
   background: var(--rock);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .ghost {
   background: var(--ghost);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .dragon {
   background: var(--dragon);
   color: var(--white);
+  text-shadow: 0px 2px var(--black);
 }
 
 .dark {
   background: var(--dark);
+  text-shadow: 0px 2px var(--white);
 }
 
 .steel {
   background: var(--steel);
+  text-shadow: 0px 2px var(--white);
 }
 
 .fairy {
   background: var(--fairy);
   color: var(--white);
+  text-shadow: 0px 1.5px var(--black);
 }
 
 
@@ -220,7 +240,7 @@ export default {
 }
 
 .chat__banner {
-  padding: 10px 10px;
+  padding: 15px 10px 10px;
 }
 
 .chat__window-header {
@@ -233,11 +253,17 @@ export default {
   margin-bottom: 5px;
 }
 
+.chat__window-name {
+  line-height: 1.5rem;
+  font-size: 14px;
+}
+
 .chat__message {
   list-style-type: none;
   border-radius: 25px;
-  padding: 5px 15px;
+  padding: 10px 15px 5px;
   margin-bottom: 5px;
+  font-size: 14px;
 }
 
 .chat__status {
@@ -253,9 +279,23 @@ export default {
 .chat__actions-input {
   width: 70%;
   padding: 5px;
+  border-top: 0;
+  border: 1px solid var(--black);
+  font-family: pokemonFont;
+  font-size: 8px;
+  color: var(--black);
+  text-transform: uppercase;
+}
+
+.chat__actions-input:focus {
+  outline: none;
 }
 
 .chat__actions-button {
   width: 30%;
+  padding-top: 5px;
+  font-size: 12px;
+  border-radius: 0%;
+  border: 0;
 }
 </style>
