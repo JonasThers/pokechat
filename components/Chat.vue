@@ -10,7 +10,7 @@
         :class="['chat__message--' + messageInChat.sender, pokemonType]">
         {{ messageInChat.content }}
       </li>
-      <p class="chat__status">{{ status }}</p>
+      <p v-if="isLoadingDots" class="chat__status">{{ status }}{{ loadingDot }}</p>
     </div>
     <form class="chat__actions" @submit="submitMessage">
       <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..."
@@ -32,11 +32,16 @@ export default {
       messagesInChat: [],
       status: '',
       failure: false,
+      loadingDot: '',
+      isLoadingDots: false,
+      submitsBeingProcessed: 0
     }
   },
   methods: {
     submitMessage(e) {
       e.preventDefault()
+
+      this.submitsBeingProcessed++
 
       if (!this.message) {
         this.failure = true
@@ -44,7 +49,6 @@ export default {
       }
 
       this.failure = false
-
       this.messagesInChat.push(
         {
           content: this.message,
@@ -53,14 +57,34 @@ export default {
       )
       this.message = '';
 
-      setTimeout(() => {
-        this.status = `${this.pokemonName} is typing`
-      }, 500)
+      if (this.submitsBeingProcessed === 1) {
+        setTimeout(() => {
+          this.status = `${this.pokemonName} is typing`
+
+          this.isLoadingDots = true
+
+          const interval = setInterval(() => {
+            this.generateLoadingDots()
+          }, 200);
+
+          setTimeout(() => {
+            clearInterval(interval)
+          }, 1400)
+        }, 700)
+      }
 
       setTimeout(() => {
         this.submitPokemonMessage()
+        this.isLoadingDots = false
         this.status = ''
-      }, 3000)
+        this.submitsBeingProcessed--
+      }, 1950)
+    },
+    generateLoadingDots() {
+      this.loadingDot = this.loadingDot + '.'
+      if (this.loadingDot === '....') {
+        this.loadingDot = ''
+      }
     },
     submitPokemonMessage() {
       this.messagesInChat.push(
@@ -69,12 +93,14 @@ export default {
           sender: 'pokemon'
         }
       )
+
+      this.status = ''
     },
     generatePokemonMessage() {
       const randomNumber = Math.floor(Math.random() * 3) + 1
 
       return `${this.pokemonName}! `.repeat(randomNumber);
-    }
+    },
   },
   computed: {
     ...mapGetters({
@@ -216,6 +242,7 @@ export default {
 
 .chat__status {
   text-align: left;
+  font-size: 12px;
 }
 
 .chat__actions {
