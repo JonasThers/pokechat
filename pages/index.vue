@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <Header />
-    <Chat />
+    <Loading v-if="loadingPokemon" />
+    <Chat v-else />
     <Footer />
   </div>
 </template>

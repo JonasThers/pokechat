@@ -23,8 +23,13 @@ export const actions = {
       `https://pokeapi.co/api/v2/pokemon/${pokemonID}`
     ).then((res) => res.json());
 
-    ctx.commit('pokemon', pokemon);
-    ctx.commit('loadingPokemon', false);
+    try {
+      ctx.commit('pokemon', pokemon);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      ctx.commit('loadingPokemon', false);
+    }
   },
 };
 
