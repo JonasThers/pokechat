@@ -16,4 +16,8 @@ header {
   text-align: center;
   margin-bottom: 1.5rem;
 }
+
+h3 {
+  line-height: 1.5rem;
+}
 </style>
