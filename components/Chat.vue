@@ -1,14 +1,14 @@
 <template>
-  <section class="chat">
+  <div class="chat">
     <div class="chat__banner" :class="pokemonType">PokeChat</div>
-    <div class="chat__window">
+    <div class="chat__window" id="chat">
       <div class="chat__window-header">
         <img class="chat__window-avatar" :src="pokemonAvatar" />
         <div class="chat__window-name">
           Hi! You'll be chatting with {{ pokemonName }}!
         </div>
       </div>
-      <div class="chat__content" id="chat">
+      <div class="chat__content">
         <div class="chat__messages">
           <li
             v-for="(messageInChat, index) in messagesInChat"
@@ -37,7 +37,7 @@
       </button>
       <p v-if="failure">Please type in a valid message</p>
     </form>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -73,8 +73,10 @@ export default {
         sender: "user",
       });
       this.message = "";
+      this.scrollToBottom();
 
       if (this.submitsBeingProcessed === 1) {
+        this.scrollToBottom();
         setTimeout(() => {
           this.status = `${this.pokemonName} is typing`;
 
@@ -95,6 +97,7 @@ export default {
         this.isLoadingDots = false;
         this.status = "";
         this.submitsBeingProcessed--;
+        this.scrollToBottom();
       }, 1950);
     },
     generateLoadingDots() {
@@ -116,6 +119,10 @@ export default {
 
       return `${this.pokemonName}! `.repeat(randomNumber);
     },
+    scrollToBottom() {
+      const element = document.getElementById("chat");
+      element.scrollTop = element.scrollHeight;
+    }
   },
   computed: {
     ...mapGetters({
@@ -248,19 +255,22 @@ export default {
   text-shadow: 0px 1.5px var(--black);
 }
 
+.chat {
+  box-shadow: var(--shadow);
+}
+
 .chat__messages {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .chat__window {
   height: 350px;
   width: 320px;
-  border: 1px solid var(--black);
-  overflow-y: scroll;
   padding: 7.5px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
 }
 
 .chat__banner {
@@ -284,7 +294,7 @@ export default {
 
 .chat__message {
   list-style-type: none;
-  border-radius: 25px;
+  border-radius: 5px 5px 0 5px;
   padding: 10px 15px 5px;
   margin-bottom: 5px;
   font-size: 14px;
@@ -309,12 +319,12 @@ export default {
 .chat__actions-input {
   width: 70%;
   padding: 5px;
-  border-top: 0;
-  border: 1px solid var(--black);
+  border: 0;
   font-family: pokemonFont;
   font-size: 8px;
   color: var(--black);
   text-transform: uppercase;
+  border-top: 1px solid var(--gray);
 }
 
 .chat__actions-input:focus {
