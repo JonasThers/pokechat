@@ -2,8 +2,10 @@
   <div class="container">
     <Header />
     <Loading v-if="loadingPokemon" />
-    <Chat v-else />
-    <Footer />
+    <div v-else>
+      <Chat />
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -42,19 +44,19 @@ export default {
 }
 
 @media (min-width: 768px) {
-  .container{
+  .container {
     width: 750px;
   }
 }
 
 @media (min-width: 992px) {
-  .container{
+  .container {
     width: 970px;
   }
 }
 
 @media (min-width: 1200px) {
-  .container{
+  .container {
     width: 1170px;
   }
 }
