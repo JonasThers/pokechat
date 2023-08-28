@@ -4,126 +4,144 @@
     <div class="chat__window">
       <div class="chat__window-header">
         <img class="chat__window-avatar" :src="pokemonAvatar" />
-        <div class="chat__window-name">Hi! You'll be chatting with {{ pokemonName }}!</div>
+        <div class="chat__window-name">
+          Hi! You'll be chatting with {{ pokemonName }}!
+        </div>
       </div>
-      <div class="chat__messages">
-      <li v-for="(messageInChat, index) in messagesInChat" :key=index class="chat__message"
-        :class="['chat__message--' + messageInChat.sender, pokemonType]">
-        {{ messageInChat.content }}
-      </li>
-    </div>
-      <p v-if="isLoadingDots" class="chat__status">{{ status }}{{ loadingDot }}</p>
+      <div class="chat__content" id="chat">
+        <div class="chat__messages">
+          <li
+            v-for="(messageInChat, index) in messagesInChat"
+            :key="index"
+            class="chat__message"
+            :class="['chat__message--' + messageInChat.sender, pokemonType]"
+          >
+            {{ messageInChat.content }}
+          </li>
+        </div>
+        <p v-if="isLoadingDots" class="chat__status">
+          {{ status }}{{ loadingDot }}
+        </p>
+      </div>
     </div>
     <form class="chat__actions" @submit="submitMessage">
-      <input class="chat__actions-input" name="message" id="message" placeholder="Write your message here..."
-        v-model="message" />
-      <button class="chat__actions-button" :class="pokemonType" type="submit">Submit</button>
+      <input
+        class="chat__actions-input"
+        name="message"
+        id="message"
+        placeholder="Write your message here..."
+        v-model="message"
+      />
+      <button class="chat__actions-button" :class="pokemonType" type="submit">
+        Submit
+      </button>
       <p v-if="failure">Please type in a valid message</p>
     </form>
   </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'Chat',
+  name: "Chat",
   data() {
     return {
-      message: '',
+      message: "",
       messagesInChat: [],
-      status: '',
+      status: "",
       failure: false,
-      loadingDot: '',
+      loadingDot: "",
       isLoadingDots: false,
-      submitsBeingProcessed: 0
-    }
+      submitsBeingProcessed: 0,
+    };
   },
   methods: {
     submitMessage(e) {
-      e.preventDefault()
+      e.preventDefault();
 
-      this.submitsBeingProcessed++
+      this.submitsBeingProcessed++;
 
       if (!this.message) {
-        this.failure = true
-        return
+        this.failure = true;
+        return;
       }
 
-      this.failure = false
-      this.messagesInChat.push(
-        {
-          content: this.message,
-          sender: 'user'
-        }
-      )
-      this.message = '';
+      this.failure = false;
+      this.messagesInChat.push({
+        content: this.message,
+        sender: "user",
+      });
+      this.message = "";
 
       if (this.submitsBeingProcessed === 1) {
         setTimeout(() => {
-          this.status = `${this.pokemonName} is typing`
+          this.status = `${this.pokemonName} is typing`;
 
-          this.isLoadingDots = true
+          this.isLoadingDots = true;
 
           const interval = setInterval(() => {
-            this.generateLoadingDots()
+            this.generateLoadingDots();
           }, 200);
 
           setTimeout(() => {
-            clearInterval(interval)
-          }, 1400)
-        }, 700)
+            clearInterval(interval);
+          }, 1400);
+        }, 700);
       }
 
       setTimeout(() => {
-        this.submitPokemonMessage()
-        this.isLoadingDots = false
-        this.status = ''
-        this.submitsBeingProcessed--
-      }, 1950)
+        this.submitPokemonMessage();
+        this.isLoadingDots = false;
+        this.status = "";
+        this.submitsBeingProcessed--;
+      }, 1950);
     },
     generateLoadingDots() {
-      this.loadingDot = this.loadingDot + '.'
-      if (this.loadingDot === '....') {
-        this.loadingDot = ''
+      this.loadingDot = this.loadingDot + ".";
+      if (this.loadingDot === "....") {
+        this.loadingDot = "";
       }
     },
     submitPokemonMessage() {
-      this.messagesInChat.push(
-        {
-          content: this.generatePokemonMessage(),
-          sender: 'pokemon'
-        }
-      )
+      this.messagesInChat.push({
+        content: this.generatePokemonMessage(),
+        sender: "pokemon",
+      });
 
-      this.status = ''
+      this.status = "";
     },
     generatePokemonMessage() {
-      const randomNumber = Math.floor(Math.random() * 3) + 1
+      const randomNumber = Math.floor(Math.random() * 3) + 1;
 
       return `${this.pokemonName}! `.repeat(randomNumber);
     },
   },
   computed: {
     ...mapGetters({
-      pokemon: 'pokemon',
+      pokemon: "pokemon",
     }),
     pokemonName() {
-      return this.pokemon.name ? this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1) : '...'
+      return this.pokemon.name
+        ? this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1)
+        : "...";
     },
     pokemonAvatar() {
-      return this.pokemon.sprites ? this.pokemon.sprites.versions['generation-i']['red-blue'].front_default : null
+      return this.pokemon.sprites
+        ? this.pokemon.sprites.versions["generation-i"]["red-blue"]
+            .front_default
+        : null;
     },
     pokemonType() {
-      return this.pokemon.types ? this.pokemon.types[0].type.name : null
-    }
+      return this.pokemon.types ? this.pokemon.types[0].type.name : null;
+    },
   },
   watch: {
     pokemon() {
-      this.messagesInChat = []
-    }
-  }
-}
+      this.messagesInChat = [];
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -230,12 +248,18 @@ export default {
   text-shadow: 0px 1.5px var(--black);
 }
 
+.chat__messages {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 .chat__window {
   height: 350px;
   width: 320px;
   border: 1px solid var(--black);
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 7.5px;
 }
 
@@ -264,6 +288,12 @@ export default {
   padding: 10px 15px 5px;
   margin-bottom: 5px;
   font-size: 14px;
+  width: 50%;
+  line-height: 1.25rem;;
+}
+
+.chat__message--user {
+  align-self: end;
 }
 
 .chat__status {
