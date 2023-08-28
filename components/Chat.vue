@@ -252,7 +252,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .chat__window {
@@ -288,7 +288,7 @@ export default {
   padding: 10px 15px 5px;
   margin-bottom: 5px;
   font-size: 14px;
-  width: 50%;
+  width: 55%;
   line-height: 1.25rem;;
 }
 
