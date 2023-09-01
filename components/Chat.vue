@@ -31,6 +31,7 @@
         id="message"
         placeholder="Write your message here..."
         v-model="message"
+        autoComplete="off"
       />
       <button class="chat__actions-button" :class="pokemonType" type="submit">
         Submit
