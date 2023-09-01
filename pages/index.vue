@@ -2,17 +2,19 @@
   <div class="container">
     <Header />
     <Loading v-if="loadingPokemon" />
-    <div v-else>
+    <fragment v-else>
       <Chat />
       <Footer />
-    </div>
+    </fragment>
   </div>
 </template>
 
 <script>
+import { Fragment } from 'vue-fragment';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  components: { Fragment },
   name: 'IndexPage',
   fetch() {
     this.getPokemon()

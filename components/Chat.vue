@@ -270,7 +270,7 @@ export default {
   padding: 7.5px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .chat__banner {
